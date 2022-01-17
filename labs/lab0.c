@@ -1,15 +1,19 @@
-// Question 1
-// 3456_10 = 1101 1000 0000_2
+// Question 1.
+// 3456 b_10 --> 1101 1000 0000 b_2
 // 2048+
 // 1024+
 //  256+
 //  128
 
-// Question 2
-// ./some_dir
-// ~/u/d/utorid/Documents/some_dir
+// Question 2.
+// (a) line(1) cd to the current directory ie no change
+//     line(3) cd to the root directory (~ is an alias)
+// omitting an argument to cd does nothing
 //
-// it runs ls .
+// (b) ./some_dir; /u/d/rachadyo/Documents/some_dir
+//     list the contents of the current directory (ls .)
+//
+// (c)
 // Documents
 // |
 // |--> some_dir
@@ -29,12 +33,3 @@
 // gcc filename.c -o output.out
 // ./output.out
 // ./third_dir/output.out
-#include <stdio.h>
-
-int main(int argc, char *argv[]) {
-
-    return 0;
-}
-
-
-
