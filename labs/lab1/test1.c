@@ -10,12 +10,14 @@ int main () {
     // Testing Part 3
     char test_food [] = "jThree Cheese Pizzaj";
     int test_p3 = sandy_eats ( test_food );
-    if ( test_p3 == 0){
-        printf (" Sandy would NOT eat ‘%s ’.\n", test_food );
+    if (test_p3 == 0){
+        printf ("Sandy would NOT eat ‘%s’.\n", test_food);
     }
     else {
-        printf ("Sandy would eat ‘%s ’.\n", test_food );
+        printf ("Sandy would eat ‘%s’.\n", test_food);
     }
     // Sandy would eat ‘Three Cheese Pizza ’.
+    char test[] = "zebra";
+    printf("Just iagine a %s\n",  imagine_fish(test));
     return 0;
 }

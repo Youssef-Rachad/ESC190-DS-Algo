@@ -3,7 +3,7 @@
 #include <math.h>
 #include "lab1.h"
 double split_bill(double base_amount, double tax_rate, double tip_rate, int num_people){
-    return base_amount*(1+tax_rate+tip_rate)/num_people;
+    return (base_amount*(1+tax_rate))*(1+tip_rate)/num_people;
     /* Alternatively
        return floor(base_amount*(tax_rate+tip_rate)*100/num_people) /100;
      * removes the need to then format the number
@@ -48,7 +48,7 @@ const char * imagine_fish(char thing[]){
         string[i+len]=msg[i];
     }
     thing = string;
-    return thing;
+    //return thing;
 }
 /*int main(int argc, char** argv[]){
     char test[] = "zebra";
