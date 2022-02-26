@@ -1,0 +1,1371 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+inoremap <Plug>(emmet-merge-lines) =emmet#util#closePopup()=emmet#mergeLines()
+inoremap <Plug>(emmet-anchorize-summary) =emmet#util#closePopup()=emmet#anchorizeURL(1)
+inoremap <Plug>(emmet-anchorize-url) =emmet#util#closePopup()=emmet#anchorizeURL(0)
+inoremap <Plug>(emmet-remove-tag) =emmet#util#closePopup()=emmet#removeTag()
+inoremap <Plug>(emmet-split-join-tag) :call emmet#splitJoinTag()
+inoremap <Plug>(emmet-toggle-comment) =emmet#util#closePopup()=emmet#toggleComment()
+inoremap <Plug>(emmet-image-encode) =emmet#util#closePopup()=emmet#imageEncode()
+inoremap <Plug>(emmet-image-size) =emmet#util#closePopup()=emmet#imageSize()
+inoremap <Plug>(emmet-move-prev-item) :call emmet#moveNextPrevItem(1)
+inoremap <Plug>(emmet-move-next-item) :call emmet#moveNextPrevItem(0)
+inoremap <Plug>(emmet-move-prev) =emmet#util#closePopup()=emmet#moveNextPrev(1)
+inoremap <Plug>(emmet-move-next) =emmet#util#closePopup()=emmet#moveNextPrev(0)
+inoremap <Plug>(emmet-balance-tag-outword) :call emmet#balanceTag(-1)
+inoremap <Plug>(emmet-balance-tag-inward) :call emmet#balanceTag(1)
+inoremap <Plug>(emmet-update-tag) =emmet#util#closePopup()=emmet#updateTag()
+inoremap <Plug>(emmet-expand-word) =emmet#util#closePopup()=emmet#expandAbbr(1,"")
+inoremap <Plug>(emmet-expand-abbr) =emmet#util#closePopup()=emmet#expandAbbr(0,"")
+inoremap <C-U> u
+nnoremap  :s/^\(\s*\)/\1\/\/ :s/^\(\s*\)\/\/\/\//\1 $
+tnoremap  N
+nnoremap  w :call IndentSave() :call TrimWhiteSpace()
+nnoremap  t :vsp:term
+nnoremap  bp :bp
+nnoremap  bn :bn
+nnoremap <silent>  v- :vertical resize -5
+nnoremap <silent>  v+ :vertical resize +5
+map  l :wincmd l
+map  k :wincmd k
+map  j :wincmd j
+map  h :wincmd h
+omap <silent> % <Plug>(MatchitOperationForward)
+xmap <silent> % <Plug>(MatchitVisualForward)
+nmap <silent> % <Plug>(MatchitNormalForward)
+imap ¿m <Plug>(emmet-merge-lines)
+imap ¿A <Plug>(emmet-anchorize-summary)
+imap ¿a <Plug>(emmet-anchorize-url)
+imap ¿k <Plug>(emmet-remove-tag)
+imap ¿j <Plug>(emmet-split-join-tag)
+imap ¿/ <Plug>(emmet-toggle-comment)
+imap ¿I <Plug>(emmet-image-encode)
+imap ¿i <Plug>(emmet-image-size)
+imap ¿N <Plug>(emmet-move-prev)
+imap ¿n <Plug>(emmet-move-next)
+imap ¿D <Plug>(emmet-balance-tag-outword)
+imap ¿d <Plug>(emmet-balance-tag-inward)
+imap ¿u <Plug>(emmet-update-tag)
+imap ¿; <Plug>(emmet-expand-word)
+imap ¿, <Plug>(emmet-expand-abbr)
+map Q gq
+omap <silent> [% <Plug>(MatchitOperationMultiBackward)
+xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
+nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
+omap <silent> ]% <Plug>(MatchitOperationMultiForward)
+xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
+nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
+xmap a% <Plug>(MatchitVisualTextObject)
+omap <silent> g% <Plug>(MatchitOperationBackward)
+xmap <silent> g% <Plug>(MatchitVisualBackward)
+nmap <silent> g% <Plug>(MatchitNormalBackward)
+vmap gx <Plug>NetrwBrowseXVis
+nmap gx <Plug>NetrwBrowseX
+nnoremap <F10> :w|!%:p:r.out
+nnoremap <F9> :w|!gcc % -lm -o %:p:r.out
+nnoremap <C-C> :s/^\(\s*\)/\1\/\/ :s/^\(\s*\)\/\/\/\//\1 $
+xmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
+onoremap <silent> <Plug>(MatchitOperationMultiForward) :call matchit#MultiMatch("W",  "o")
+onoremap <silent> <Plug>(MatchitOperationMultiBackward) :call matchit#MultiMatch("bW", "o")
+xnoremap <silent> <Plug>(MatchitVisualMultiForward) :call matchit#MultiMatch("W",  "n")m'gv``
+xnoremap <silent> <Plug>(MatchitVisualMultiBackward) :call matchit#MultiMatch("bW", "n")m'gv``
+nnoremap <silent> <Plug>(MatchitNormalMultiForward) :call matchit#MultiMatch("W",  "n")
+nnoremap <silent> <Plug>(MatchitNormalMultiBackward) :call matchit#MultiMatch("bW", "n")
+onoremap <silent> <Plug>(MatchitOperationBackward) :call matchit#Match_wrapper('',0,'o')
+onoremap <silent> <Plug>(MatchitOperationForward) :call matchit#Match_wrapper('',1,'o')
+xnoremap <silent> <Plug>(MatchitVisualBackward) :call matchit#Match_wrapper('',0,'v')m'gv``
+xnoremap <silent> <Plug>(MatchitVisualForward) :call matchit#Match_wrapper('',1,'v')m'gv``
+nnoremap <silent> <Plug>(MatchitNormalBackward) :call matchit#Match_wrapper('',0,'n')
+nnoremap <silent> <Plug>(MatchitNormalForward) :call matchit#Match_wrapper('',1,'n')
+vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())
+xnoremap <Plug>ColorFgBg :ColorSwapFgBg
+nnoremap <Plug>ColorFgBg :ColorSwapFgBg
+xnoremap <Plug>ColorContrast :ColorContrast
+nnoremap <Plug>ColorContrast :ColorContrast
+xnoremap <Plug>Colorizer :ColorHighlight
+nnoremap <Plug>Colorizer :ColorToggle
+vnoremap <Plug>(emmet-code-pretty) :call emmet#codePretty()
+nnoremap <Plug>(emmet-merge-lines) :call emmet#mergeLines()
+nnoremap <Plug>(emmet-anchorize-summary) :call emmet#anchorizeURL(1)
+nnoremap <Plug>(emmet-anchorize-url) :call emmet#anchorizeURL(0)
+nnoremap <Plug>(emmet-remove-tag) :call emmet#removeTag()
+nnoremap <Plug>(emmet-split-join-tag) :call emmet#splitJoinTag()
+nnoremap <Plug>(emmet-toggle-comment) :call emmet#toggleComment()
+nnoremap <Plug>(emmet-image-encode) :call emmet#imageEncode()
+nnoremap <Plug>(emmet-image-size) :call emmet#imageSize()
+nnoremap <Plug>(emmet-move-prev-item) :call emmet#moveNextPrevItem(1)
+nnoremap <Plug>(emmet-move-next-item) :call emmet#moveNextPrevItem(0)
+nnoremap <Plug>(emmet-move-prev) :call emmet#moveNextPrev(1)
+nnoremap <Plug>(emmet-move-next) :call emmet#moveNextPrev(0)
+vnoremap <Plug>(emmet-balance-tag-outword) :call emmet#balanceTag(-1)
+nnoremap <Plug>(emmet-balance-tag-outword) :call emmet#balanceTag(-1)
+vnoremap <Plug>(emmet-balance-tag-inward) :call emmet#balanceTag(1)
+nnoremap <Plug>(emmet-balance-tag-inward) :call emmet#balanceTag(1)
+nnoremap <Plug>(emmet-update-tag) :call emmet#updateTag()
+nnoremap <Plug>(emmet-expand-word) :call emmet#expandAbbr(1,"")
+vnoremap <Plug>(emmet-expand-abbr) :call emmet#expandAbbr(2,"")
+nnoremap <Plug>(emmet-expand-abbr) :call emmet#expandAbbr(3,"")
+nnoremap <F2> :cd %:p:h/:Lexplore
+inoremap  u
+inoremap "" "
+inoremap " ""<Left>
+inoremap '' '
+inoremap ' ''<Left>
+inoremap () ()
+inoremap (( (
+inoremap ( ()<Left>
+vmap ¿c <Plug>(emmet-code-pretty)
+nmap ¿m <Plug>(emmet-merge-lines)
+nmap ¿A <Plug>(emmet-anchorize-summary)
+nmap ¿a <Plug>(emmet-anchorize-url)
+nmap ¿k <Plug>(emmet-remove-tag)
+nmap ¿j <Plug>(emmet-split-join-tag)
+nmap ¿/ <Plug>(emmet-toggle-comment)
+nmap ¿I <Plug>(emmet-image-encode)
+nmap ¿i <Plug>(emmet-image-size)
+nmap ¿N <Plug>(emmet-move-prev)
+nmap ¿n <Plug>(emmet-move-next)
+vmap ¿D <Plug>(emmet-balance-tag-outword)
+nmap ¿D <Plug>(emmet-balance-tag-outword)
+vmap ¿d <Plug>(emmet-balance-tag-inward)
+nmap ¿d <Plug>(emmet-balance-tag-inward)
+nmap ¿u <Plug>(emmet-update-tag)
+nmap ¿; <Plug>(emmet-expand-word)
+vmap ¿, <Plug>(emmet-expand-abbr)
+nmap ¿, <Plug>(emmet-expand-abbr)
+inoremap [] []
+inoremap [[ [
+inoremap [ []O
+inoremap [ []<Left>
+inoremap {} {}
+inoremap {{ {
+inoremap { {}O
+inoremap { {}<Left>
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set autoindent
+set background=dark
+set backspace=start,eol,indent
+set complete=.,w,b,u,i
+set completeopt=menu,preview,menu,menuone,preview,noselect,popup
+set display=truncate
+set expandtab
+set fileencodings=ucs-bom,utf-8,default,latin1
+set history=200
+set incsearch
+set langnoremap
+set nolangremap
+set laststatus=2
+set nrformats=bin,hex
+set printoptions=paper:a4
+set pumheight=7
+set ruler
+set runtimepath=~/.vim,~/vimfiles/plugged/syntastic,~/vimfiles/plugged/gruvbox,~/vimfiles/plugged/challenger-deep,~/vimfiles/plugged/vim-airline,~/vimfiles/plugged/Vim_easy_predict,~/vimfiles/plugged/emmet-vim,~/vimfiles/plugged/vimtex,~/vimfiles/plugged/rainbow_csv,~/vimfiles/plugged/Colorizer,~/vimfiles/plugged/goyo.vim,~/vimfiles/plugged/goyo,/var/lib/vim/addons,/etc/vim,/usr/share/vim/vimfiles,/usr/share/vim/vim81,/usr/share/vim/vim81/pack/dist/opt/matchit,/usr/share/vim/vimfiles/after,/etc/vim/after,/var/lib/vim/addons/after,~/vimfiles/plugged/vimtex/after,~/.vim/after
+set scrolloff=5
+set shiftwidth=4
+set shortmess=filnxtToOSc
+set showcmd
+set smartindent
+set softtabstop=4
+set statusline=%!airline#statusline(3)
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+set noswapfile
+set tabstop=4
+set termguicolors
+set ttimeout
+set ttimeoutlen=100
+set visualbell
+set wildmenu
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+silent tabonly
+cd /mnt/c/users/youssef/esc190/assignments
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+argglobal
+%argdel
+set stal=2
+tabnew
+tabrewind
+edit a1.c
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+2wincmd k
+wincmd w
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 71 + 75) / 150)
+exe '2resize ' . ((&lines * 12 + 18) / 36)
+exe 'vert 2resize ' . ((&columns * 78 + 75) / 150)
+exe '3resize ' . ((&lines * 15 + 18) / 36)
+exe 'vert 3resize ' . ((&columns * 78 + 75) / 150)
+exe '4resize ' . ((&lines * 4 + 18) / 36)
+exe 'vert 4resize ' . ((&columns * 78 + 75) / 150)
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/c.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 28 - ((17 * winheight(0) + 16) / 33)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+28
+normal! 020|
+wincmd w
+argglobal
+if bufexists("a1.h") | buffer a1.h | else | edit a1.h | endif
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/cpp.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(2)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 20 - ((6 * winheight(0) + 6) / 12)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+20
+normal! 0
+wincmd w
+argglobal
+if bufexists("restaurant.c") | buffer restaurant.c | else | edit restaurant.c | endif
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/c.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(3)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 29 - ((8 * winheight(0) + 7) / 15)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+29
+normal! 0
+wincmd w
+argglobal
+if bufexists("menu.txt") | buffer menu.txt | else | edit menu.txt | endif
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <F5> :RbSelect
+cnoreabbr <buffer> <expr> UPDATE rainbow_csv#set_statusline_columns() == "dummy" ? 'Update' : 'Update'
+cnoreabbr <buffer> <expr> update rainbow_csv#set_statusline_columns() == "dummy" ? 'Update' : 'Update'
+cnoreabbr <buffer> <expr> Update rainbow_csv#set_statusline_columns() == "dummy" ? 'Update' : 'Update'
+cnoreabbr <buffer> <expr> SELECT rainbow_csv#set_statusline_columns() == "dummy" ? 'Select' : 'Select'
+cnoreabbr <buffer> <expr> select rainbow_csv#set_statusline_columns() == "dummy" ? 'Select' : 'Select'
+cnoreabbr <buffer> <expr> Select rainbow_csv#set_statusline_columns() == "dummy" ? 'Select' : 'Select'
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/text.txt,~/vimfiles/dictionnaries/csv.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'csv'
+setlocal filetype=csv
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(4)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'csv'
+setlocal syntax=csv
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=78
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 2) / 4)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 71 + 75) / 150)
+exe '2resize ' . ((&lines * 12 + 18) / 36)
+exe 'vert 2resize ' . ((&columns * 78 + 75) / 150)
+exe '3resize ' . ((&lines * 15 + 18) / 36)
+exe 'vert 3resize ' . ((&columns * 78 + 75) / 150)
+exe '4resize ' . ((&lines * 4 + 18) / 36)
+exe 'vert 4resize ' . ((&columns * 78 + 75) / 150)
+tabnext
+edit tests/a1_starter_tests.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 1resize ' . ((&columns * 75 + 75) / 150)
+exe '2resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 2resize ' . ((&columns * 75 + 75) / 150)
+exe '3resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 3resize ' . ((&columns * 74 + 75) / 150)
+exe '4resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 4resize ' . ((&columns * 74 + 75) / 150)
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/cpp.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 8) / 16)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("tests/restaurant_tests.c") | buffer tests/restaurant_tests.c | else | edit tests/restaurant_tests.c | endif
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/c.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(2)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 8) / 16)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("tests/menu_tests.c") | buffer tests/menu_tests.c | else | edit tests/menu_tests.c | endif
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/c.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(3)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 14 - ((7 * winheight(0) + 8) / 16)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+14
+normal! 015|
+wincmd w
+argglobal
+if bufexists("tests/order_tests.c") | buffer tests/order_tests.c | else | edit tests/order_tests.c | endif
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=50
+setlocal colorcolumn=50
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=~/vimfiles/dictionnaries/c.txt
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,#
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal sidescrolloff=-1
+set signcolumn=yes
+setlocal signcolumn=yes
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(4)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 8) / 16)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+3wincmd w
+exe '1resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 1resize ' . ((&columns * 75 + 75) / 150)
+exe '2resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 2resize ' . ((&columns * 75 + 75) / 150)
+exe '3resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 3resize ' . ((&columns * 74 + 75) / 150)
+exe '4resize ' . ((&lines * 16 + 18) / 36)
+exe 'vert 4resize ' . ((&columns * 74 + 75) / 150)
+tabnext 2
+set stal=1
+badd +1 menu.txt
+badd +1 a.c
+badd +28 a1.c
+badd +6 a1.h
+badd +80 restaurant.c
+badd +212 ~/.vimrc
+badd +23 readcsv.c
+badd +1 restaurant.h
+badd +0 tests/restaurant_tests.c
+badd +0 tests/a1_starter_tests.h
+badd +14 tests/menu_tests.c
+badd +1 tests/order_tests.c
+badd +1 tests/a1.c
+if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToOSc
+set winminheight=1 winminwidth=1
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
